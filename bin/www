@@ -1,0 +1,14 @@
+#!/usr/bin/env node
+
+const app = require('../app');
+const config = require('../config.json');
+
+app.set('port', config.port || 80);
+
+const server = app.listen(app.get('port'), () => {
+  const host = server.address().address;
+  const { port } = server.address();
+
+  console.log('Example app listening at http://%s:%s', host, port);
+});
+

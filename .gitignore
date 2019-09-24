@@ -1,0 +1,11 @@
+# Created by .ignore support plugin (hsz.mobi)
+### Node template
+
+.idea
+blog.iml
+
+node_modules/
+config.json
+
+package-lock.json
+
