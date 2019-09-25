@@ -5,30 +5,36 @@ const config = require('../../config.json');
 const userSchema = mongoose.Schema({
   name: {
     type: String,
+    default: '',
     trim: true,
   },
   email: {
     type: String,
     trim: true,
+    default: '',
     unique: true,
     required: true,
   },
   password: {
     type: String,
     trim: true,
+    default: '',
     required: true,
     select: false,
   },
   headerImage: {
     type: String,
+    default: '',
     trim: true,
   },
   phone: {
     type: String,
+    default: '',
     trim: true,
   },
   intro: {
     type: String,
+    default: '',
     trim: true,
   },
 },
