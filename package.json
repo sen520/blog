@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "babel-eslint": "8.2.5",
+    "bcrypt": "^3.0.6",
     "debug": "4.1.1",
     "eslint": "4.19.1",
     "eslint-config-airbnb": "16.1.0",
@@ -29,6 +30,7 @@
     "koa-views": "6.2.0",
     "lint-staged": "6.1.1",
     "mongodb": "3.3.2",
+    "mongoose": "^5.7.1",
     "pug": "2.0.3"
   },
   "devDependencies": {

@@ -1,6 +1,7 @@
 const config = require('../../config.json');
 
-const mongoClient = require('mongodb').MongoClient;
+
+const mongoose = require('mongoose');
 
 const mongoOptions = {
   useUnifiedTopology: true,
@@ -10,8 +11,12 @@ const mongoOptions = {
 
 };
 
-const mongo = mongoClient.connect(config.mongodb, mongoOptions);
+mongoose.connect(config.mongodb, mongoOptions);
+
+
+
+
 
 module.exports = {
-  mongo,
+  mongoose,
 };

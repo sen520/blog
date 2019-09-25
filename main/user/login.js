@@ -1,11 +1,19 @@
-const { mongo } = require('../static/server');
+const { UserSchema } = require('../static/schema');
+const bcrypt = require('bcrypt');
 
-async function login({ username, password }, ctx) {
-  const db = (await mongo).db('data');
-  await db.collection('user').insert({ username, password });
-  const res = await db.collection('user').findOne({ username, password });
-  console.log(res);
-  ctx.body = 'login success';
+async function login({ email, password }, ctx) {
+  const user = await UserSchema.findOne({ email }).select('+password');
+  if (!user) {
+    ctx.status = 404;
+    ctx.body = 'no user';
+    return;
+  }
+  const result = await bcrypt.compare(password, user.password);
+  if (result) {
+    ctx.body = 'login success';
+    return;
+  }
+  ctx.body = 'error password';
 }
 
 module.exports = {
