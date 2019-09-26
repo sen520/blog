@@ -19,7 +19,6 @@ async function updateUserInfo(info, ctx) {
     }
     delete info._id;
     delete info.password;
-    console.log(info);
     const user = await UserSchema.update({ _id: userId }, { $set: info });
     setResult(ctx, 200, user);
   } catch (e) {
