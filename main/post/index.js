@@ -15,7 +15,7 @@ async function getPosts({ page = 1, userId }, ctx) {
     let posts = null;
     let nextUrl = null;
     if (!userId) {
-      posts = await PostSchema.find({})
+      posts = await PostSchema.find({ _deleted: false })
         .sort({ _updated: -1 })
         .skip(15 * (page - 1))
         .limit(15);
@@ -56,10 +56,12 @@ async function getPosts({ page = 1, userId }, ctx) {
  */
 /* eslint-disable no-underscore-dangle */
 async function addPost({ userId, title, abstract, content }, ctx) {
-  const user = await UserSchema.findOne({ _id: userId });
+  const objectId = mongoose.Types.ObjectId;
+  const user = await UserSchema.findOne({ _id: objectId(userId), loginEnable: true });
   if (!user) {
     ctx.body = 'no user';
     ctx.status = 404;
+    return;
   }
   const post = new PostSchema({
     title,
@@ -79,7 +81,34 @@ async function addPost({ userId, title, abstract, content }, ctx) {
   };
 }
 
+/**
+ * update posts
+ * @param page {number} page you want
+ * @param userId {string} userId
+ * @param content {object} some info of post
+ * @param ctx {object}
+ *
+ * @returns {Promise<void>}
+ */
+async function updatePosts({ userId, postId, content }, ctx) {
+  try {
+    const objectId = mongoose.Types.ObjectId;
+    const user = await UserSchema.findOne({ _id: objectId(userId), loginEnable: true });
+    if (!user) {
+      ctx.body = 'no user';
+      ctx.status = 404;
+      return;
+    }
+    await PostSchema.update({ _deleted: false, _id: objectId(postId) }, { $set: content });
+    setResult(ctx, 200, 'update post success');
+  } catch (e) {
+    setError(ctx, e);
+  }
+}
+
+
 module.exports = {
   getPosts,
   addPost,
+  updatePosts,
 };

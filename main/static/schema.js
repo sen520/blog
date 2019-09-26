@@ -22,6 +22,11 @@ const userSchema = mongoose.Schema({
     required: true,
     select: false,
   },
+  loginEnable: {
+    type: Boolean,
+    required: false,
+    default: true,
+  },
   headerImage: {
     type: String,
     default: '',
@@ -67,6 +72,11 @@ const postSchema = mongoose.Schema({
     type: String,
     required: false,
     trim: true,
+  },
+  _deleted: {
+    type: Boolean,
+    required: false,
+    default: false,
   },
 },
 { timestamps: { createdAt: '_created', updatedAt: '_updated' } }

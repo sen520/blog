@@ -39,7 +39,7 @@ async function updateUserInfo(info, ctx) {
  * @returns {Promise<void>}
  */
 async function resetPassword({ oldPassword, newPassword, email }, ctx) {
-  const user = await UserSchema.findOne({ email }).select('+password');
+  const user = await UserSchema.findOne({ email, loginEnable: true }).select('+password');
   if (!user) {
     setResult(ctx, 404, 'no such user');
     return;

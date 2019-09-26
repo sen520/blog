@@ -16,6 +16,10 @@ async function login({ email, password }, ctx) {
       setResult(ctx, 404, 'no such user');
       return;
     }
+    if (!user.loginEnable) {
+      setResult(ctx, 405, 'your account can\'t log');
+      return;
+    }
     const result = await bcrypt.compare(password, user.password);
     if (result) {
       setResult(ctx, 200, 'login success');
