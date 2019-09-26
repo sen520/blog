@@ -43,7 +43,7 @@ const userSchema = mongoose.Schema({
 
 
 userSchema.pre('save', function (next) {
-  if (!this.isModified('password') || !this.isNew) {
+  if (!this.isModified('password')) {
     return next();
   }
   bcrypt.hash(this.password, config.SALT_ROUND).then((hashedPassword) => {

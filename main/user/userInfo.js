@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt');
 const { UserSchema } = require('../static/schema');
 const { setError, setResult } = require('../static/utility');
 
@@ -27,6 +28,33 @@ async function updateUserInfo(info, ctx) {
   }
 }
 
+/**
+ * update user info
+ *
+ * @param oldPassword {string}
+ * @param newPassword {string}
+ * @param email {string}
+ * @param ctx {object}
+ *
+ * @returns {Promise<void>}
+ */
+async function resetPassword({ oldPassword, newPassword, email }, ctx) {
+  const user = await UserSchema.findOne({ email }).select('+password');
+  if (!user) {
+    setResult(ctx, 404, 'no such user');
+    return;
+  }
+  const result = await bcrypt.compare(oldPassword, user.password);
+  if (!result) {
+    setResult(ctx, 404, 'error password');
+    return;
+  }
+  user.password = newPassword;
+  user.save();
+  setResult(ctx, 200, 'update password success');
+}
+
 module.exports = {
   updateUserInfo,
+  resetPassword,
 };
