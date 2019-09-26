@@ -19,8 +19,9 @@ async function updateUserInfo(info, ctx) {
     }
     delete info._id;
     delete info.password;
-    const user = await UserSchema.update({ _id: userId }, { $set: info });
-    setResult(ctx, 200, user);
+    delete info.email;
+    await UserSchema.update({ _id: userId }, { $set: info });
+    setResult(ctx, 200, 'update user info success');
   } catch (e) {
     setError(ctx, e);
   }
