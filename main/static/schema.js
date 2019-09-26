@@ -72,8 +72,22 @@ const postSchema = mongoose.Schema({
 { timestamps: { createdAt: '_created', updatedAt: '_updated' } }
 );
 
+const objectId = mongoose.Schema.Types.ObjectId;
+
+const relationshipSchema = mongoose.Schema({
+  operatorId: {
+    type: objectId,
+    required: true,
+  },
+  aimId: {
+    type: objectId,
+    required: true,
+  },
+});
+
 
 module.exports = {
   UserSchema: mongoose.model('User', userSchema),
   PostSchema: mongoose.model('Post', postSchema),
+  Relationship: mongoose.model('relationship', relationshipSchema),
 };

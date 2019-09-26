@@ -1,5 +1,6 @@
 const { UserSchema } = require('../static/schema');
 const bcrypt = require('bcrypt');
+const { setError, setResult } = require('../static/utility');
 
 /**
  * login
@@ -9,18 +10,21 @@ const bcrypt = require('bcrypt');
  * @param ctx {object} ctx object
  */
 async function login({ email, password }, ctx) {
-  const user = await UserSchema.findOne({ email }).select('+password');
-  if (!user) {
-    ctx.status = 404;
-    ctx.body = 'no user';
-    return;
+  try {
+    const user = await UserSchema.findOne({ email }).select('+password');
+    if (!user) {
+      setResult(ctx, 404, 'no such user');
+      return;
+    }
+    const result = await bcrypt.compare(password, user.password);
+    if (result) {
+      setResult(ctx, 200, 'login success');
+      return;
+    }
+    setResult(ctx, 405, 'error password');
+  } catch (e) {
+    setError(ctx, e);
   }
-  const result = await bcrypt.compare(password, user.password);
-  if (result) {
-    ctx.body = 'login success';
-    return;
-  }
-  ctx.body = 'error password';
 }
 
 module.exports = {
