@@ -11,7 +11,7 @@ const userSchema = mongoose.Schema({
   email: {
     type: String,
     trim: true,
-    default: '',
+    index: true,
     unique: true,
     required: true,
   },
@@ -52,6 +52,28 @@ userSchema.pre('save', function (next) {
   });
 });
 
+const postSchema = mongoose.Schema({
+  title: {
+    type: String,
+    default: '',
+    trim: true,
+  },
+  abstract: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  content: {
+    type: String,
+    required: false,
+    trim: true,
+  },
+},
+{ timestamps: { createdAt: '_created', updatedAt: '_updated' } }
+);
+
+
 module.exports = {
   UserSchema: mongoose.model('User', userSchema),
+  PostSchema: mongoose.model('Post', postSchema),
 };

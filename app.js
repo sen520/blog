@@ -9,6 +9,7 @@ const app = new Koa();
 
 const index = require('./routes/index');
 const users = require('./main/user/router');
+const posts = require('./main/post/router');
 
 // error handler
 onerror(app);
@@ -24,6 +25,7 @@ app.use(logger());
 // routes
 app.use(index.routes(), index.allowedMethods());
 app.use(users.routes(), users.allowedMethods());
+app.use(posts.routes(), posts.allowedMethods());
 
 // error-handling
 app.on('error', (err, ctx) => {
