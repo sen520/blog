@@ -1,4 +1,4 @@
-const { PostSchema, UserSchema, Relationship } = require('../static/schema');
+const { PostSchema, UserSchema, RelationshipSchema, constant } = require('../static/schema');
 const { mongoose } = require('../static/server');
 const { setError, setResult } = require('../static/utility');
 
@@ -24,7 +24,7 @@ async function getPosts({ page = 1, userId }, ctx) {
       }
     } else {
       const objectId = mongoose.Types.ObjectId;
-      const result = await Relationship.aggregate([
+      const result = await RelationshipSchema.aggregate([
         { $match: { operatorId: objectId(userId) } },
         { $lookup: { from: 'posts', localField: 'aimId', foreignField: '_id', as: 'posts' } },
         { $unwind: '$posts' },
@@ -70,9 +70,10 @@ async function addPost({ userId, title, abstract, content }, ctx) {
   });
   const result = await post.save();
 
-  const rela = new Relationship({
+  const rela = new RelationshipSchema({
     operatorId: userId,
     aimId: result._id,
+    type: constant.relationship.type.user_post,
   });
   await rela.save();
   ctx.body = {

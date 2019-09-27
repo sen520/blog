@@ -2,6 +2,8 @@ const { mongoose } = require('./server');
 const bcrypt = require('bcrypt');
 const config = require('../../config.json');
 
+const objectId = mongoose.Schema.Types.ObjectId;
+
 const userSchema = mongoose.Schema({
   name: {
     type: String,
@@ -78,11 +80,15 @@ const postSchema = mongoose.Schema({
     required: false,
     default: false,
   },
+  comments: {
+    type: Array,
+    required: false,
+    default: [],
+  },
 },
 { timestamps: { createdAt: '_created', updatedAt: '_updated' } }
 );
 
-const objectId = mongoose.Schema.Types.ObjectId;
 
 const relationshipSchema = mongoose.Schema({
   operatorId: {
@@ -93,11 +99,25 @@ const relationshipSchema = mongoose.Schema({
     type: objectId,
     required: true,
   },
-});
+  type: {
+    type: Number,
+    min: 1,
+    max: 2,
+  },
+}, { timestamps: { createdAt: '_created', updatedAt: '_updated' } });
 
+
+const constant = {
+  relationship: {
+    type: {
+      user_post: 1,
+    },
+  },
+};
 
 module.exports = {
   UserSchema: mongoose.model('User', userSchema),
   PostSchema: mongoose.model('Post', postSchema),
-  Relationship: mongoose.model('relationship', relationshipSchema),
+  RelationshipSchema: mongoose.model('relationship', relationshipSchema),
+  constant,
 };
