@@ -108,6 +108,7 @@ async function updatePosts({ userId, postId, content }, ctx) {
 }
 
 /**
+ * add comment
  *
  * @param userId
  * @param content
@@ -131,9 +132,31 @@ async function addComment({ userId, content, postId }, ctx) {
   setResult(ctx, 200, 'add comment success');
 }
 
+/**
+ * delete post
+ * @param userId
+ * @param postId
+ * @param ctx
+ * @returns {Promise<void>}
+ */
+async function deletePosts({ userId, postId }, ctx) {
+  const objectId = mongoose.Types.ObjectId;
+  const result = await RelationshipSchema.findOne({
+    operatorId: objectId(userId),
+    aimId: objectId(postId),
+    type: constant.relationship.type.user_post });
+  if (!result) {
+    setResult(ctx, 404, 'this post is not belongs to you');
+    return;
+  }
+  await PostSchema.update({ _id: postId }, { $set: { _deleted: true } });
+  setResult(ctx, 200, 'delete success');
+}
+
 module.exports = {
   getPosts,
   addPost,
   updatePosts,
   addComment,
+  deletePosts,
 };
