@@ -1,5 +1,5 @@
 const router = require('koa-router')();
-const { getPosts, addPost, updatePosts } = require('./index');
+const { getPosts, addPost, updatePosts, addComment } = require('./index');
 
 router.prefix('/posts');
 
@@ -14,5 +14,10 @@ router.post('/add', async (ctx) => {
 router.post('/update', async (ctx) => {
   await updatePosts(ctx.request.body, ctx);
 });
+
+router.post('/addcomment', async (ctx) => {
+  await addComment(ctx.request.body, ctx);
+});
+
 
 module.exports = router;

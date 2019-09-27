@@ -1,4 +1,4 @@
-const { PostSchema, UserSchema, RelationshipSchema, constant } = require('../static/schema');
+const { PostSchema, UserSchema, CommentSchema, RelationshipSchema, constant } = require('../static/schema');
 const { mongoose } = require('../static/server');
 const { setError, setResult } = require('../static/utility');
 
@@ -107,9 +107,33 @@ async function updatePosts({ userId, postId, content }, ctx) {
   }
 }
 
+/**
+ *
+ * @param userId
+ * @param content
+ * @param postId
+ * @param ctx
+ * @returns {Promise<void>}
+ */
+async function addComment({ userId, content, postId }, ctx) {
+  const post = await PostSchema.findOne({ _id: postId });
+  if (!post) {
+    setResult(ctx, 404, 'no such post');
+    return;
+  }
+  const comment = new CommentSchema({
+    userId,
+    content,
+  });
+  const commentResult = await comment.save();
+  post.comments.push(commentResult._id);
+  await post.save();
+  setResult(ctx, 200, 'add comment success');
+}
 
 module.exports = {
   getPosts,
   addPost,
   updatePosts,
+  addComment,
 };

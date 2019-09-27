@@ -59,6 +59,17 @@ userSchema.pre('save', function (next) {
   });
 });
 
+const commentSchema = mongoose.Schema({
+  userId: {
+    type: objectId,
+    required: true,
+  },
+  content: {
+    type: String,
+    required: true,
+  },
+}, { timestamps: { createdAt: '_created', updatedAt: '_updated' } });
+
 const postSchema = mongoose.Schema({
   title: {
     type: String,
@@ -84,6 +95,7 @@ const postSchema = mongoose.Schema({
     type: Array,
     required: false,
     default: [],
+    list: [{ type: objectId, ref: commentSchema }],
   },
 },
 { timestamps: { createdAt: '_created', updatedAt: '_updated' } }
@@ -119,5 +131,6 @@ module.exports = {
   UserSchema: mongoose.model('User', userSchema),
   PostSchema: mongoose.model('Post', postSchema),
   RelationshipSchema: mongoose.model('relationship', relationshipSchema),
+  CommentSchema: mongoose.model('comments', commentSchema),
   constant,
 };
