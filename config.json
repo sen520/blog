@@ -1,5 +1,0 @@
-{
-  "mongodb":"mongodb://sen:2310787706zs@47.100.112.71:27018,47.100.112.71:27019,47.100.112.71:27020/data?authSource=admin&replicaSet=rs0",
-  "port": 3000,
-  "SALT_ROUND": 10
-}
