@@ -3,9 +3,12 @@ const json = require('koa-json');
 const onerror = require('koa-onerror');
 const bodyparser = require('koa-bodyparser');
 const logger = require('koa-logger');
+const path = require('path');
+const staticFile = require('koa-static');
 
 const app = new Koa();
 
+app.use(staticFile(path.join(__dirname, './static')));
 
 const index = require('./routes/index');
 const users = require('./main/user/router');
@@ -20,7 +23,6 @@ app.use(bodyparser({
 }));
 app.use(json());
 app.use(logger());
-
 
 // routes
 app.use(index.routes(), index.allowedMethods());
