@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    * {
+        margin: 0;
+    }
+    ul {
+        text-align: center;
+        margin: 20px auto;
+    }
+    li {
+        list-style: none;
+        display: inline-block;
+        margin: 20px 20px;
+    }
+    a {
+        text-decoration: none;
+    }
+    .body {
+        height:auto;
+        min-height:200px;
+    }
+    .blog {
+        background-image: url("./img/blog.png");
+        background-repeat: no-repeat;
+        background-size: contain;
+        width: 30px;
+        height: 30px;
+    }
+    .blog:hover {
+        background-image: url("./img/blog-dark.png");
+    }
+    .github {
+        background-image: url("./img/github.png");
+        background-repeat: no-repeat;
+        background-size: contain;
+        width: 30px;
+        height: 30px;
+    }
+    .github:hover {
+        background-image: url("./img/github-dark.png");
+    }
+    .mail {
+        background-image: url("./img/mail.png");
+        background-repeat: no-repeat;
+        background-size: contain;
+        width: 30px;
+        height: 30px;
+    }
+    .mail:hover {
+        background-image: url("./img/mail-dark.png");
+    }
+    .wechat {
+        background-image: url("./img/wechat.png");
+        background-repeat: no-repeat;
+        background-size: contain;
+        width: 30px;
+        height: 30px;
+        position: relative;;
+    }
+    #wechat_img {
+
+        float: left;
+        position: absolute;
+        left: 20px;
+        top: 30px;
+        display: none;
+    }
+    .wechat:hover {
+        background-image: url("./img/wechat-dark.png");
+    }
+    .wechat:hover #wechat_img {
+        display: block;
+    }
+</style>
+<body>
+<div class="body">
+</div>
+<div class="center">
+    <ul>
+        <li>
+            <a href="http://blog.silencew.cn">
+                <div class="blog" title="my blog"></div>
+            </a>
+        </li>
+        <li>
+            <a href="http://github.com/sen520">
+                <div class="github" title="github"></div>
+            </a>
+        </li>
+        <li>
+            <a
+                    target="_blank"
+                    href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=g7C2u7q0t7GxtsPy8q3g7O4"
+                    style="text-decoration:none;">
+                <div class="mail" title="Contact me"></div>
+            </a>
+        </li>
+        <li>
+            <div class="wechat">
+                <img src="./img/wechat-img.jpg" id="wechat_img" width=100>
+            </div>
+        </li>
+    </ul>
+</div>
+</body>
+</html>
