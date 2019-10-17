@@ -22,7 +22,9 @@ app.use(bodyparser({
   enableTypes: ['json', 'form', 'text'],
 }));
 app.use(json());
-app.use(logger());
+app.use(logger(() => {
+  console.log(new Date());
+}));
 
 // routes
 app.use(index.routes(), index.allowedMethods());
