@@ -76,10 +76,10 @@ async function addPost({ userId, title, abstract, content }, ctx) {
     type: constant.relationship.type.user_post,
   });
   await rela.save();
-  ctx.body = {
+  setResult(ctx, 200, {
     result,
     text: 'add success',
-  };
+  });
 }
 
 /**

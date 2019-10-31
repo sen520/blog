@@ -13,6 +13,7 @@ app.use(staticFile(path.join(__dirname, './static')));
 const index = require('./routes/index');
 const users = require('./main/user/router');
 const posts = require('./main/post/router');
+const juhes = require('./main/juhe/router');
 
 // error handler
 onerror(app);
@@ -22,14 +23,15 @@ app.use(bodyparser({
   enableTypes: ['json', 'form', 'text'],
 }));
 app.use(json());
-app.use(logger(() => {
-  console.log(new Date());
+app.use(logger(async (ctx) => {
+  console.log(decodeURI(ctx));
 }));
 
 // routes
 app.use(index.routes(), index.allowedMethods());
 app.use(users.routes(), users.allowedMethods());
 app.use(posts.routes(), posts.allowedMethods());
+app.use(juhes.routes(), juhes.allowedMethods());
 
 // error-handling
 app.on('error', (err, ctx) => {
