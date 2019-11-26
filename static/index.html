@@ -60,7 +60,7 @@
         background-size: contain;
         width: 30px;
         height: 30px;
-        position: relative;;
+        position: relative;
     }
     #wechat_img {
         float: left;
@@ -76,6 +76,26 @@
     .wechat:hover #wechat_img {
         display: block;
     }
+    .upload{
+        background-image: url("img/upload.png");
+        background-repeat: no-repeat;
+        background-size: contain;
+        width: 30px;
+        height: 30px;
+        position: relative;
+
+    }
+    .upload:hover {
+        cursor:pointer;
+        background-image: url("./img/upload-dark.png");
+    }
+    #upload-input{
+        position: absolute;
+        left: -10px;
+        top: 5px;
+        /*display: none;*/
+        /*visibility: hidden;*/
+     }
 </style>
 <body>
 <div class="body">
@@ -105,7 +125,31 @@
                 <img src="./img/wechat-img.jpg" id="wechat_img" width=100>
             </div>
         </li>
+        <li>
+            <div class="upload">
+                <input id="upload-input"  type="file"  />
+<!--                <img id="upload" src="./img/upload-dark.png" style="width: 40px; height: 40px; vertical-align: middle;" />-->
+            </div>
+        </li>
     </ul>
 </div>
+<script>
+    function upload(e) {
+        const file = e.target.files[0];
+        const formData = new FormData();
+        formData.append('file', file, file.name);
+        const ajax = new XMLHttpRequest();
+        ajax.open('post', 'http://' + window.location.host + '/upload');
+        // ajax.setRequestHeader('Content-type', 'multipart/form-data');
+        ajax.send(formData);
+        ajax.onload = function() {
+        const textObject = JSON.parse(ajax.responseText);
+        alert('http://' + window.location.host + textObject.filename)
+        }
+
+    }
+    const fileInput = document.querySelector('#upload-input');
+    fileInput.addEventListener('change', upload)
+</script>
 </body>
 </html>
