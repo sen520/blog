@@ -1,4 +1,5 @@
 FROM node
+RUN makedir data
 COPY ["package.json" , "./data"]
 COPY . ./data
 
