@@ -1,5 +1,6 @@
 const router = require('koa-router')();
 const multer = require('koa-multer');
+const path = require('path');
 
 router.get('/', async (ctx) => {
   ctx.body = 'welcom to my blog';
@@ -12,7 +13,7 @@ router.get('/', async (ctx) => {
 const storage = multer.diskStorage({
   // 文件保存路径
   destination: (req, file, cb) => {
-    cb(null, 'static/uploads/');
+    cb(null, path.join(process.cwd(), 'static', 'uploads'));
   },
   // 修改文件名称
   filename: (req, file, cb) => {

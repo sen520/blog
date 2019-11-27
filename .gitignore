@@ -8,3 +8,4 @@ node_modules/
 config.json
 package-lock.json
 static/uploads/*.png
+static/uploads/*.jpg
