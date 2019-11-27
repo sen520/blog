@@ -1,7 +1,6 @@
 FROM node
-RUN makedir data
-COPY ["package.json" , "./data"]
-COPY . ./data
+COPY ["package.json" , "."]
+COPY . .
 
-RUN cd ./data && npm i
-CMD cd ./data && npm start
+RUN npm i
+CMD npm start
