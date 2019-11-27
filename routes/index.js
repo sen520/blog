@@ -13,7 +13,7 @@ router.get('/', async (ctx) => {
 const storage = multer.diskStorage({
   // 文件保存路径
   destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, './static', 'uploads'));
+    cb(null, path.join(__dirname, '../static', 'uploads'));
   },
   // 修改文件名称
   filename: (req, file, cb) => {
