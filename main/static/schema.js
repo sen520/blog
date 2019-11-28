@@ -127,10 +127,25 @@ const constant = {
   },
 };
 
+const imgSchema = mongoose.Schema({
+  name: {
+    type: String,
+    default: '',
+    trim: true,
+  },
+  url: {
+    type: String,
+    default: '',
+    trim: true,
+  } },
+{ timestamps: { createdAt: '_created', updatedAt: '_updated' } }
+);
+
 module.exports = {
   UserSchema: mongoose.model('User', userSchema),
   PostSchema: mongoose.model('Post', postSchema),
   RelationshipSchema: mongoose.model('relationship', relationshipSchema),
   CommentSchema: mongoose.model('comments', commentSchema),
+  ImageSchema: mongoose.model('image', imgSchema),
   constant,
 };

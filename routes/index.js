@@ -1,6 +1,7 @@
 const router = require('koa-router')();
 const multer = require('koa-multer');
 const path = require('path');
+const { ImageSchema } = require('../main/static/schema');
 
 router.get('/', async (ctx) => {
   ctx.body = 'welcom to my blog';
@@ -16,9 +17,15 @@ const storage = multer.diskStorage({
     cb(null, path.join(__dirname, '../static', 'uploads'));
   },
   // 修改文件名称
-  filename: (req, file, cb) => {
+  filename: async (req, file, cb) => {
     const fileFormat = (file.originalname).split('.');// 以点分割成数组，数组的最后一项就是后缀名
-    cb(null, `${Date.now()}.${fileFormat[fileFormat.length - 1]}`);
+    const name = `${Date.now()}.${fileFormat[fileFormat.length - 1]}`;
+    const url = `http://silencew.cn/uploads/${name}`;
+    cb(null, name);
+    const user = new ImageSchema({
+      name, url,
+    });
+    await user.save();
   },
 });
 // 加载配置
