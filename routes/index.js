@@ -22,8 +22,12 @@ const storage = multer.diskStorage({
     const name = `${Date.now()}.${fileFormat[fileFormat.length - 1]}`;
     const url = `http://silencew.cn/uploads/${name}`;
     cb(null, name);
+    let origin = 'silencew.cn';
+    if (req.headers.host === 'silencew.cn') {
+      origin = 'localhost';
+    }
     const user = new ImageSchema({
-      name, url,
+      name, url, origin,
     });
     await user.save();
   },

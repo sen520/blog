@@ -137,7 +137,13 @@ const imgSchema = mongoose.Schema({
     type: String,
     default: '',
     trim: true,
-  } },
+  },
+  origin: {
+    type: String,
+    default: 'local',
+    trim: true,
+  },
+},
 { timestamps: { createdAt: '_created', updatedAt: '_updated' } }
 );
 
