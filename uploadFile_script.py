@@ -20,7 +20,7 @@ def upload_file(host='silencew.cn', files=[]):
             "Referer": 'localhost:3000',
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.87 Safari/537.36"}
         result = requests.post("http://" + host + "/upload", files=file_data, headers=headers)
-        file_dict['file'] = 'http://' + host + result.json()['filename']
+        file_dict[file] = 'http://' + host + result.json()['filename']
     return file_dict
 
-upload_file(files=['a.png'])
+print(upload_file(files=['app.js']))

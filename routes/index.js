@@ -23,7 +23,7 @@ const storage = multer.diskStorage({
     const url = `http://silencew.cn/uploads/${name}`;
     cb(null, name);
     let origin = 'silencew.cn';
-    if (req.headers.host === 'silencew.cn') {
+    if (req.headers.host !== 'silencew.cn') {
       origin = 'localhost';
     }
     const user = new ImageSchema({
