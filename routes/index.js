@@ -14,7 +14,7 @@ router.get('/', async (ctx) => {
 const limits = {
   fields: 10, // 非文件字段的数量
   fileSize: 20 * 1024 * 1024, // 文件大小 单位 b
-  files: 1, // 文件数量
+  files: 20, // 文件数量
 };
 
 const storage = multer.diskStorage({
