@@ -11,6 +11,12 @@ router.get('/', async (ctx) => {
 //   console.log(ctx.request.body);
 // });
 
+const limits = {
+  fields: 10, // 非文件字段的数量
+  fileSize: 200 * 1024 * 1024, // 文件大小 单位 b
+  files: 1, // 文件数量
+};
+
 const storage = multer.diskStorage({
   // 文件保存路径
   destination: (req, file, cb) => {
@@ -33,7 +39,7 @@ const storage = multer.diskStorage({
   },
 });
 // 加载配置
-const upload = multer({ storage });
+const upload = multer({ storage, limits });
 router.post('/upload', upload.single('file'), async (ctx) => {
   const { filename } = ctx.req.file;
   ctx.body = {

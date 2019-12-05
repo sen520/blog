@@ -168,8 +168,13 @@
         // ajax.setRequestHeader('Content-type', 'multipart/form-data');
         ajax.send(formData);
         ajax.onload = function () {
-            const textObject = JSON.parse(ajax.responseText);
-            alert('http://' + window.location.host + textObject.filename)
+            try{
+                const textObject = JSON.parse(ajax.responseText);
+                alert('http://' + window.location.host + textObject.filename)
+            } catch (e) {
+                alert('最大支持上传为200M');
+            }
+
         }
 
     }
