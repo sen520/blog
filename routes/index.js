@@ -2,7 +2,6 @@ const router = require('koa-router')();
 const multer = require('koa-multer');
 const path = require('path');
 const { ImageSchema } = require('../main/static/schema');
-const { getClientIP } = require('../main/static/utility');
 
 router.get('/', async (ctx) => {
   ctx.body = 'welcom to my blog';
@@ -33,7 +32,6 @@ const storage = multer.diskStorage({
     if (req.headers.host !== 'silencew.cn') {
       origin = 'localhost';
     }
-    console.log(getClientIP(req));
     const user = new ImageSchema({
       name, url, origin,
     });
