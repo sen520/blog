@@ -1,7 +1,9 @@
 const router = require('koa-router')();
 const multer = require('koa-multer');
 const path = require('path');
+const fs = require('fs');
 const { ImageSchema } = require('../main/static/schema');
+const { promisify } = require('util');
 
 router.get('/', async (ctx) => {
   ctx.body = 'welcom to my blog';
@@ -10,6 +12,17 @@ router.get('/', async (ctx) => {
 // router.post('/upload', async (ctx) => {
 //   console.log(ctx.request.body);
 // });
+
+router.get('/read/dir', async (ctx) => {
+  const fsDir = promisify(fs.readdir);
+  const result = await fsDir('static/uploads');
+  const dir = result.filter((t) => {
+    const stat = fs.lstatSync(`static/uploads/${t}`);
+    return stat.isDirectory();
+  });
+  ctx.body = dir;
+});
+
 
 const limits = {
   fields: 10, // 非文件字段的数量
