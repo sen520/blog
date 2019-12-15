@@ -16,6 +16,7 @@ router.get('/', async (ctx) => {
 router.get('/read/dir', async (ctx) => {
   const fsDir = promisify(fs.readdir);
   const result = await fsDir('./static/uploads');
+  console.log(result);
   const dir = result.filter((t) => {
     const stat = fs.lstatSync(`./static/uploads/${t}`);
     return stat.isDirectory();
