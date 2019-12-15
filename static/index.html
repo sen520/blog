@@ -281,7 +281,7 @@
                     alert(response.error);
                     return;
                 }
-                alert('http://' + window.location.host + textObject.filename)
+                alert('http://' + window.location.host + response.filename)
             } catch (e) {
                 console.log(e);
                 alert('最大支持上传为20M');
