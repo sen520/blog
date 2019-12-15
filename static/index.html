@@ -250,7 +250,6 @@
         for (let i = formDiv.childNodes.length - 1; i >= 0; i--) {
             formDiv.removeChild(formDiv.childNodes[i]);
         }
-        console.log(form.getElementsByTagName('input')[0]);
         form.removeChild(form.getElementsByTagName('input')[0]);
     }
 
@@ -264,7 +263,7 @@
             formDiv.appendChild(span);
             return
         }
-        formDiv.appendChild(formDiv.childNodes[0]);
+        // formDiv.appendChild(formDiv.childNodes[0]);
         const uploadInput = document.getElementById('upload-input');
         const file = uploadInput.files[0];
         const formData = new FormData();
