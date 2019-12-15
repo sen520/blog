@@ -1,5 +1,5 @@
 const config = require('../../config.json');
-
+const mysql = require('mysql2');
 
 const mongoose = require('mongoose');
 
@@ -12,7 +12,9 @@ const mongoOptions = {
 };
 mongoose.connect(config.mongodb, mongoOptions);
 
+const connection = mysql.createConnection(config.mySQL);
 
 module.exports = {
   mongoose,
+  connection,
 };
