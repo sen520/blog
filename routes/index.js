@@ -39,24 +39,36 @@ const storage = multer.diskStorage({
   filename: async (req, file, cb) => {
     const fileFormat = (file.originalname).split('.');// 以点分割成数组，数组的最后一项就是后缀名
     const name = `${Date.now()}.${fileFormat[fileFormat.length - 1]}`;
-    const url = `http://silencew.cn/uploads/${name}`;
+
     cb(null, name);
-    let origin = 'silencew.cn';
-    if (req.headers.host !== 'silencew.cn') {
-      origin = 'localhost';
-    }
-    const user = new ImageSchema({
-      name, url, origin,
-    });
-    await user.save();
   },
 });
 // 加载配置
 const upload = multer({ storage, limits });
 router.post('/upload', upload.single('file'), async (ctx) => {
+  const { dir } = ctx.req.body;
   const { filename } = ctx.req.file;
+  const url = `http://silencew.cn/uploads/${dir}/${filename}`;
+  let origin = 'silencew.cn';
+  if (ctx.req.headers.host !== 'silencew.cn') {
+    origin = 'localhost';
+  }
+  const user = new ImageSchema({
+    name: filename, url, origin,
+  });
+  await user.save();
+  fs.rename(`static/uploads/${filename}`, `static/uploads/${dir}/${filename}`, (err) => {
+    if (err) {
+      ctx.body = {
+        error: '操作失败',
+      };
+    } else {
+      console.log('重命名成功！');
+    }
+  });
+
   ctx.body = {
-    filename: `/uploads/${filename}`,
+    filename: `/uploads/${dir}/${filename}`,
   };
 });
 
