@@ -50,8 +50,8 @@ router.post('/upload', upload.single('file'), async (ctx) => {
   const { dir } = ctx.req.body;
   const { filename } = ctx.req.file;
   const url = `http://silencew.cn/uploads/${dir}/${filename}`;
-  let origin = 'silencew.cn';
-  if (ctx.req.headers.host !== 'silencew.cn') {
+  let origin = 'project_backend:3000';
+  if (ctx.req.headers.host !== 'project_backend:3000') {
     origin = 'localhost';
   }
   const user = new ImageSchema({
