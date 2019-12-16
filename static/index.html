@@ -273,7 +273,7 @@
         formData.append('file', file, file.name);
         formData.append('dir', value);
         const ajax = new XMLHttpRequest();
-        ajax.open('post', window.location.host + '/upload');
+        ajax.open('post', 'http://' + window.location.host + '/upload');
         // ajax.setRequestHeader('Content-type', 'multipart/form-data');
         ajax.send(formData);
         ajax.onload = function () {
