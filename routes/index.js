@@ -72,6 +72,7 @@ router.post('/upload', upload.single('file'), async (ctx) => {
   const params = [filename, url, new Date(), new Date(), origin];
   const [rows] = await connection.promise().query(sql, params);
   console.log(rows.insertId);
+  ctx.res.setHeader('Access-Control-Allow-Origin', ctx.req.headers.host);
   ctx.body = {
     filename: `/uploads/${dir}/${filename}`,
   };
