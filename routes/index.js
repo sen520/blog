@@ -3,8 +3,9 @@ const multer = require('koa-multer');
 const path = require('path');
 const fs = require('fs');
 const { promisify } = require('util');
+const mysql = require('mysql2');
+const config = require('../config.json');
 const { ImageSchema } = require('../main/static/schema');
-const { connection } = require('../main/static/server');
 
 router.get('/', async (ctx) => {
   ctx.body = 'welcom to my blog';
@@ -67,11 +68,12 @@ router.post('/upload', upload.single('file'), async (ctx) => {
     name: filename, url, origin,
   });
   await user.save();
-
+  const connection = mysql.createConnection(config.mySQL);
   const sql = 'INSERT INTO images(id, name, url, created, updated, origin) VALUES(0, ?, ?, ?, ?, ?)';
   const params = [filename, url, new Date(), new Date(), origin];
   const [rows] = await connection.promise().query(sql, params);
   console.log(rows.insertId);
+  connection.close();
   ctx.body = {
     filename: `/uploads/${dir}/${filename}`,
   };
