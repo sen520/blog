@@ -247,10 +247,14 @@
     };
 
     function clearTags() {
-        for (let i = formDiv.childNodes.length - 1; i >= 0; i--) {
-            formDiv.removeChild(formDiv.childNodes[i]);
+        try{
+            for (let i = formDiv.childNodes.length - 1; i >= 0; i--) {
+                formDiv.removeChild(formDiv.childNodes[i]);
+            }
+            form.removeChild(form.getElementsByTagName('input')[0]);
+        }catch (e) {
+            console.error(e)
         }
-        form.removeChild(form.getElementsByTagName('input')[0]);
     }
 
     function upload() {
@@ -270,7 +274,7 @@
         formData.append('file', file, file.name);
         formData.append('dir', value);
         const ajax = new XMLHttpRequest();
-        ajax.open('post', 'https://' + window.location.host + '/upload');
+        ajax.open('post', window.location.host + '/upload');
         // ajax.setRequestHeader('Content-type', 'multipart/form-data');
         ajax.send(formData);
         ajax.onload = function () {
