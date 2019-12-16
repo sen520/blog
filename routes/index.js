@@ -54,10 +54,6 @@ router.post('/upload', upload.single('file'), async (ctx) => {
   if (ctx.req.headers.host !== 'project_backend:3000') {
     origin = 'localhost';
   }
-  const user = new ImageSchema({
-    name: filename, url, origin,
-  });
-  await user.save();
 
   fs.rename(`static/uploads/${filename}`, `static/uploads/${dir}/${filename}`, (err) => {
     if (err) {
@@ -68,6 +64,11 @@ router.post('/upload', upload.single('file'), async (ctx) => {
       console.log('重命名成功！');
     }
   });
+
+  const user = new ImageSchema({
+    name: filename, url, origin,
+  });
+  await user.save();
 
   const sql = 'INSERT INTO images(id, name, url, created, updated, origin) VALUES(0, ?, ?, ?, ?, ?)';
   const params = [filename, url, new Date(), new Date(), origin];
