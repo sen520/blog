@@ -55,16 +55,14 @@ router.post('/upload', upload.single('file'), async (ctx) => {
     origin = 'localhost';
   }
 
-  fs.rename(`static/uploads/${filename}`, `static/uploads/${dir}/${filename}`, (err) => {
-    if (err) {
-      ctx.body = {
-        error: '操作失败',
-      };
-    } else {
-      console.log('重命名成功！');
-    }
-  });
-
+  const rename = promisify(fs.rename);
+  const error = await rename(`static/uploads/${filename}`, `static/uploads/${dir}/${filename}`);
+  if (error) {
+    ctx.body = {
+      error: '操作失败',
+    };
+    return;
+  }
   const user = new ImageSchema({
     name: filename, url, origin,
   });
