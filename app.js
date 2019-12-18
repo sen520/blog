@@ -4,7 +4,7 @@ const onerror = require('koa-onerror');
 const bodyparser = require('koa-bodyparser');
 const logger = require('koa-logger');
 const path = require('path');
-const xmlParser = require('koa-xml-parser');
+require('body-parser-xml')(bodyparser);
 const staticFile = require('koa-static');
 
 const app = new Koa();
@@ -20,21 +20,24 @@ const juhes = require('./main/juhe/router');
 onerror(app);
 
 // middlewares
-const parseXML = xmlParser({
-  limit: '1MB', // Reject payloads larger than 1 MB
-  encoding: 'UTF-8', // Explicitly set UTF-8 encoding
-  xml: {
-    normalize: true, // Trim whitespace inside text nodes
-    normalizeTags: true, // Transform tags to lowercase
-    explicitArray: false, // Only put nodes in array if >1
+
+// app.use(bodyparser({
+//   enableTypes: ['json', 'form', 'text', 'xml'],
+// }));
+app.use(bodyparser.xml({
+  limit: '1MB',
+  xmlParseOptions: {
+    normalize: true,
+    normalizeTags: true,
+    explicitArray: false,
   },
-});
-
-app.use(parseXML);
-
-app.use(bodyparser({
-  enableTypes: ['json', 'form', 'text'],
+  verify: (req, res, buf, encoding) => {
+    if (buf && buf.length) {
+      req.rawBody = buf.toString(encoding || 'utf8');
+    }
+  },
 }));
+
 app.use(json());
 app.use(logger(async (ctx) => {
   console.log(decodeURI(ctx));
