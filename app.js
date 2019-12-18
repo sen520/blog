@@ -4,7 +4,7 @@ const onerror = require('koa-onerror');
 const bodyparser = require('koa-bodyparser');
 const logger = require('koa-logger');
 const path = require('path');
-require('body-parser-xml')(bodyparser);
+
 const staticFile = require('koa-static');
 
 const app = new Koa();
@@ -21,23 +21,9 @@ onerror(app);
 
 // middlewares
 
-// app.use(bodyparser({
-//   enableTypes: ['json', 'form', 'text', 'xml'],
-// }));
-app.use(bodyparser.xml({
-  limit: '1MB',
-  xmlParseOptions: {
-    normalize: true,
-    normalizeTags: true,
-    explicitArray: false,
-  },
-  verify: (req, res, buf, encoding) => {
-    if (buf && buf.length) {
-      req.rawBody = buf.toString(encoding || 'utf8');
-    }
-  },
+app.use(bodyparser({
+  enableTypes: ['json', 'form', 'text'],
 }));
-
 app.use(json());
 app.use(logger(async (ctx) => {
   console.log(decodeURI(ctx));
