@@ -79,4 +79,9 @@ router.post('/upload', upload.single('file'), async (ctx) => {
   };
 });
 
+router.post('/test', async (ctx) => {
+  console.log(ctx.req.body);
+  ctx.body = 'get';
+});
+
 module.exports = router;
