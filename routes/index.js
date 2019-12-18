@@ -80,7 +80,7 @@ router.post('/upload', upload.single('file'), async (ctx) => {
 });
 
 router.post('/test', async (ctx) => {
-  console.log(ctx.req.body);
+  console.log(ctx.request.body);
   ctx.body = 'get';
 });
 
