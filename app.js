@@ -15,14 +15,14 @@ const index = require('./routes/index');
 const users = require('./main/user/router');
 const posts = require('./main/post/router');
 const juhes = require('./main/juhe/router');
-
+const xmlParser = require('koa-xml-body');
 // error handler
 onerror(app);
 
 // middlewares
-
+app.use(xmlParser());
 app.use(bodyparser({
-  enableTypes: ['json', 'form', 'text'],
+  enableTypes: ['json', 'form', 'text', 'xml'],
 }));
 app.use(json());
 app.use(logger(async (ctx) => {
