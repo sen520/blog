@@ -49,4 +49,44 @@ function opFrequencyTest(operationKey, seconds, count) {
   return true;
 }
 
-module.exports = opFrequencyTest;
+/**
+ * 注入错误反馈响应
+ * @param {*} ctx
+ * @param {Error} error
+ */
+function throwErrorResponse(ctx, error) {
+  const { message } = error;
+  if (message) {
+    try {
+      const { status, error: errorParsed } = JSON.parse(message);
+      ctx.status = status;
+      ctx.body = {
+        status,
+        error: errorParsed,
+      };
+    } catch {
+      ctx.status = 500;
+      ctx.body = {
+        status: 500,
+        error: {
+          code: -1,
+          message,
+        },
+      };
+    }
+  } else {
+    ctx.status = 500;
+    ctx.body = {
+      status: 500,
+      error: {
+        code: -1,
+        message: 'Internal Server Error',
+      },
+    };
+  }
+}
+
+module.exports = {
+  opFrequencyTest,
+  throwErrorResponse
+};

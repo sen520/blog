@@ -2,6 +2,7 @@ const Koa = require('koa');
 const json = require('koa-json');
 const onerror = require('koa-onerror');
 const bodyparser = require('koa-bodyparser');
+const xmlParser = require('koa-xml-body');
 const logger = require('koa-logger');
 const path = require('path');
 
@@ -15,14 +16,15 @@ const index = require('./routes/index');
 const users = require('./main/user/router');
 const posts = require('./main/post/router');
 const juhes = require('./main/juhe/router');
-const xmlParser = require('koa-xml-body');
+const wechat = require('./main/wechat/router');
+
 // error handler
 onerror(app);
 
 // middlewares
 app.use(xmlParser());
 app.use(bodyparser({
-  enableTypes: ['json', 'form', 'text', 'xml'],
+  enableTypes: ['json', 'form', 'text'],
 }));
 app.use(json());
 app.use(logger(async (ctx) => {
@@ -35,6 +37,7 @@ app.use(index.routes(), index.allowedMethods());
 app.use(users.routes(), users.allowedMethods());
 app.use(posts.routes(), posts.allowedMethods());
 app.use(juhes.routes(), juhes.allowedMethods());
+app.use(wechat.routes(), wechat.allowedMethods());
 
 // error-handling
 app.on('error', (err, ctx) => {

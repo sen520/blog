@@ -36,7 +36,9 @@
     "mongoose": "5.7.1",
     "mysql2": "^2.0.2",
     "node-fetch": "^2.6.0",
+    "public-ip": "^4.0.0",
     "pug": "2.0.3",
+    "request": "^2.88.0",
     "saslprep": "^1.0.3"
   },
   "devDependencies": {

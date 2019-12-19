@@ -15,6 +15,7 @@ router.get('/', async (ctx) => {
 //   console.log(ctx.request.body);
 // });
 
+// 获取文件夹
 router.get('/read/dir', async (ctx) => {
   const fsDir = promisify(fs.readdir);
   const result = await fsDir('./static/uploads');
@@ -25,13 +26,12 @@ router.get('/read/dir', async (ctx) => {
   ctx.body = dir;
 });
 
-
+// 设置文件上传配置
 const limits = {
   fields: 10, // 非文件字段的数量
   fileSize: 20 * 1024 * 1024, // 文件大小 单位 b
   files: 20, // 文件数量
 };
-
 const storage = multer.diskStorage({
   // 文件保存路径
   destination: (req, file, cb) => {
@@ -47,6 +47,7 @@ const storage = multer.diskStorage({
 });
 // 加载配置
 const upload = multer({ storage, limits });
+// 文件上传，保存数据至服务器
 router.post('/upload', upload.single('file'), async (ctx) => {
   const { dir } = ctx.req.body;
   const { filename } = ctx.req.file;
