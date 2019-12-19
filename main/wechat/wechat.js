@@ -113,7 +113,11 @@ class WxPayCallback {
       // eslint-disable-next-line prefer-destructuring
       returnMsg = xml.return_msg[0];
     }
-    return `<xml><return_code><![CDATA[${returnCode}]]></return_code><return_msg><![CDATA[${returnMsg}]]></return_msg></xml>`;
+    return `<xml><return_code><![CDATA[${
+      returnCode
+    }]]></return_code><return_msg><![CDATA[${
+      returnMsg
+    }]]></return_msg></xml>`;
   }
 }
 
