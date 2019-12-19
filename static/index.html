@@ -99,6 +99,20 @@
         position: relative;
     }
 
+    .pan {
+        background-image: url("./img/pan.png");
+        background-repeat: no-repeat;
+        background-size: contain;
+        width: 30px;
+        height: 30px;
+        position: relative;
+    }
+
+    .pan:hover {
+        cursor: pointer;
+        background-image: url("./img/pan-dark.png");
+    }
+
     .upload {
         background-image: url("img/upload.png");
         background-repeat: no-repeat;
@@ -171,6 +185,12 @@
                 <img src="./img/wechat-img.jpg" id="wechat_img" width=100>
             </div>
         </li>
+        <li id="pan">
+            <a href="/pan">
+                <div class="pan" title='Cloud disk'>
+                </div>
+            </a>
+        </li>
         <br>
         <li class="upload" title="upload image">
             <input id="upload-input" type="file"/>
@@ -187,111 +207,111 @@
     </div>
 </div>
 <script>
-    const input = document.getElementsByClassName('upload')[0];
-    input.addEventListener('click', function () {
-        document.getElementById('upload-input').click();
-    });
+	const input = document.getElementsByClassName('upload')[0];
+	input.addEventListener('click', function () {
+		document.getElementById('upload-input').click();
+	});
 
-    const mask = document.getElementById('mask');
-    const select = document.getElementById('select');
-    const form = document.getElementById('form');
-    const upload_img = document.getElementsByClassName('upload')[0];
-    const formDiv = document.getElementById('form-div');
-    let value = null;
-    formDiv.addEventListener('click', (event) => {
-        if (event.target.tagName === 'INPUT') {
-            value = event.target.value;
-        }
-    });
-    input.addEventListener('change', function () {
-        mask.style.display = 'block';
-        const ajax = new XMLHttpRequest();
-        ajax.open('get', 'http://' + window.location.host + '/read/dir');
-        ajax.send();
-        ajax.onload = function () {
-            try {
-                const textObject = JSON.parse(ajax.responseText);
-                textObject.forEach((value) => {
-                    const label = document.createElement('label');
-                    const inputLabel = document.createElement('input');
-                    const br = document.createElement('br');
-                    inputLabel.name = 'file';
-                    inputLabel.type = 'radio';
-                    inputLabel.value = value;
-                    label.appendChild(inputLabel);
-                    label.append(value);
-                    formDiv.appendChild(label);
-                    formDiv.appendChild(br);
-                });
-                const button = document.createElement('input');
-                button.type = 'button';
-                button.id = 'submit';
-                button.value = '选择';
-                form.appendChild(button);
-                button.addEventListener('click', upload);
-            } catch (e) {
+	const mask = document.getElementById('mask');
+	const select = document.getElementById('select');
+	const form = document.getElementById('form');
+	const upload_img = document.getElementsByClassName('upload')[0];
+	const formDiv = document.getElementById('form-div');
+	let value = null;
+	formDiv.addEventListener('click', (event) => {
+		if (event.target.tagName === 'INPUT') {
+			value = event.target.value;
+		}
+	});
+	input.addEventListener('change', function () {
+		mask.style.display = 'block';
+		const ajax = new XMLHttpRequest();
+		ajax.open('get', 'http://' + window.location.host + '/read/dir');
+		ajax.send();
+		ajax.onload = function () {
+			try {
+				const textObject = JSON.parse(ajax.responseText);
+				textObject.forEach((value) => {
+					const label = document.createElement('label');
+					const inputLabel = document.createElement('input');
+					const br = document.createElement('br');
+					inputLabel.name = 'file';
+					inputLabel.type = 'radio';
+					inputLabel.value = value;
+					label.appendChild(inputLabel);
+					label.append(value);
+					formDiv.appendChild(label);
+					formDiv.appendChild(br);
+				});
+				const button = document.createElement('input');
+				button.type = 'button';
+				button.id = 'submit';
+				button.value = '选择';
+				form.appendChild(button);
+				button.addEventListener('click', upload);
+			} catch (e) {
 
-            }
-        }
-    });
-    mask.onclick = function (event) {
-        if (event.target === mask) {
-            clearTags();
-                // form.getElementsByTagName("button").forEach((t) => {
-                //     form.removeChild(t);
-                // })
+			}
+		}
+	});
+	mask.onclick = function (event) {
+		if (event.target === mask) {
+			clearTags();
+			// form.getElementsByTagName("button").forEach((t) => {
+			//     form.removeChild(t);
+			// })
 
-            mask.style.display = "none";
-        }
-    };
+			mask.style.display = "none";
+		}
+	};
 
-    function clearTags() {
-        try{
-            for (let i = formDiv.childNodes.length - 1; i >= 0; i--) {
-                formDiv.removeChild(formDiv.childNodes[i]);
-            }
-            form.removeChild(form.getElementsByTagName('input')[0]);
-        }catch (e) {
-            console.error(e)
-        }
-    }
+	function clearTags() {
+		try {
+			for (let i = formDiv.childNodes.length - 1; i >= 0; i--) {
+				formDiv.removeChild(formDiv.childNodes[i]);
+			}
+			form.removeChild(form.getElementsByTagName('input')[0]);
+		} catch (e) {
+			console.error(e)
+		}
+	}
 
-    function upload() {
-        if (value == null) {
-            formDiv.querySelectorAll('span').forEach((t) => {
-                formDiv.removeChild(t)
-            });
-            const span = document.createElement('span');
-            span.innerText = '请选择文件夹';
-            formDiv.appendChild(span);
-            return
-        }
-        // formDiv.appendChild(formDiv.childNodes[0]);
-        const uploadInput = document.getElementById('upload-input');
-        const file = uploadInput.files[0];
-        const formData = new FormData();
-        formData.append('file', file, file.name);
-        formData.append('dir', value);
-        const ajax = new XMLHttpRequest();
-        ajax.open('post', 'http://' + window.location.host + '/upload');
-        // ajax.setRequestHeader('Content-type', 'multipart/form-data');
-        ajax.send(formData);
-        ajax.onload = function () {
-            try {
-                const response = JSON.parse(ajax.responseText);
-                if (response.error) {
-                    alert(response.error);
-                    return;
-                }
-                alert('http://' + window.location.host + response.filename)
-            } catch (e) {
-                console.log(e);
-                alert('最大支持上传为20M');
-            }
-            clearTags();
-            mask.style.display = "none";
-        }
-    }
+	function upload() {
+		if (value == null) {
+			formDiv.querySelectorAll('span').forEach((t) => {
+				formDiv.removeChild(t)
+			});
+			const span = document.createElement('span');
+			span.innerText = '请选择文件夹';
+			formDiv.appendChild(span);
+			return
+		}
+		// formDiv.appendChild(formDiv.childNodes[0]);
+		const uploadInput = document.getElementById('upload-input');
+		const file = uploadInput.files[0];
+		const formData = new FormData();
+		formData.append('file', file, file.name);
+		formData.append('dir', value);
+		const ajax = new XMLHttpRequest();
+		ajax.open('post', 'http://' + window.location.host + '/upload');
+		// ajax.setRequestHeader('Content-type', 'multipart/form-data');
+		ajax.send(formData);
+		ajax.onload = function () {
+			try {
+				const response = JSON.parse(ajax.responseText);
+				if (response.error) {
+					alert(response.error);
+					return;
+				}
+				alert('http://' + window.location.host + response.filename)
+			} catch (e) {
+				console.log(e);
+				alert('最大支持上传为20M');
+			}
+			clearTags();
+			mask.style.display = "none";
+		}
+	}
 
 </script>
 </body>

@@ -1,9 +1,7 @@
 const data = {};
 
 function isDateOvertimed(date, seconds) {
-  const overtime = new Date();
-  overtime.setSeconds(date.getSeconds() + seconds);
-  return new Date() > overtime;
+  return new Date().getTime() > date.getTime() + seconds * 1000;
 }
 
 function cleanData() {
