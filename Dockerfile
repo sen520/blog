@@ -1,5 +1,5 @@
 FROM node
-COPY ["package.json", "package-lock.json*" , "./"]
+COPY ["package.json", "package-lock.json" , "./"]
 COPY . .
 
 RUN npm ci
