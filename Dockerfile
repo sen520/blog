@@ -1,6 +1,6 @@
 FROM node
-COPY ["package.json" , "."]
+COPY ["package.json", "package-lock.json*" , "./"]
 COPY . .
 
-RUN npm i
+RUN npm ci
 CMD npm start
