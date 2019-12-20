@@ -226,7 +226,7 @@
 	input.addEventListener('change', function () {
 		mask.style.display = 'block';
 		const ajax = new XMLHttpRequest();
-		ajax.open('get', 'http://' + window.location.host + '/read/dir');
+		ajax.open('get', 'https://' + window.location.host + '/read/dir');
 		ajax.send();
 		ajax.onload = function () {
 			try {
@@ -293,7 +293,7 @@
 		formData.append('file', file, file.name);
 		formData.append('dir', value);
 		const ajax = new XMLHttpRequest();
-		ajax.open('post', 'http://' + window.location.host + '/upload');
+		ajax.open('post', 'https://' + window.location.host + '/upload');
 		// ajax.setRequestHeader('Content-type', 'multipart/form-data');
 		ajax.send(formData);
 		ajax.onload = function () {
