@@ -85,14 +85,14 @@ router.post('/test', async (ctx) => {
   ctx.body = 'get';
 });
 
-// router.get('/pan', async (ctx) => {
-//   const fsDir = promisify(fs.readdir);
-//   const result = await fsDir('./static/uploads');
-//   let html = '';
-//   for (const file of result) {
-//     html += `${file}\n`;
-//   }
-//   ctx.body = html;
-// });
+router.get('/pan', async (ctx) => {
+  const fsDir = promisify(fs.readdir);
+  const result = await fsDir('./static/uploads');
+  let html = '';
+  for (const file of result) {
+    html += `${file}\n`;
+  }
+  ctx.body = html;
+});
 
 module.exports = router;
