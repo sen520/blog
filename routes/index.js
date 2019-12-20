@@ -6,6 +6,8 @@ const { promisify } = require('util');
 const mysql = require('mysql2');
 const config = require('../config.json');
 const { ImageSchema } = require('../main/static/schema');
+const { throwErrorResponse } = require('../utility');
+const { sendEmail } = require('../main/email');
 
 router.get('/', async (ctx) => {
   ctx.body = 'welcom to my blog';
@@ -93,6 +95,19 @@ router.get('/pan', async (ctx) => {
     html += `${file}\n`;
   }
   ctx.body = html;
+});
+
+router.post('/send-email', async (ctx) => {
+  try {
+    const {
+      to, subject, body,
+    } = ctx.request.body;
+    ctx.body = await sendEmail({
+      to, subject, body,
+    });
+  } catch (e) {
+    throwErrorResponse(ctx, e);
+  }
 });
 
 module.exports = router;
