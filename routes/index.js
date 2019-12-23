@@ -19,6 +19,7 @@ router.get('/', async (ctx) => {
 
 // 获取文件夹
 router.get('/read/dir', async (ctx) => {
+  console.log(ctx.req.headers);
   const fsDir = promisify(fs.readdir);
   const result = await fsDir('./static/uploads');
   const dir = result.filter((t) => {
