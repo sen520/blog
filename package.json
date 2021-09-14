@@ -9,7 +9,7 @@
   "dependencies": {
     "babel-eslint": "8.2.5",
     "bcrypt": "3.0.6",
-    "body-parser-xml": "^1.1.0",
+    "body-parser-xml": "^2.0.3",
     "debug": "4.1.1",
     "ejs": "^3.0.1",
     "eslint": "4.19.1",
